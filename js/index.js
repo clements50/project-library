@@ -2,6 +2,11 @@ const addBookBtn = document.querySelector('.add-book-btn');
 const modal = document.querySelector('.modal');
 const exitBtn = document.querySelector('.exit-btn');
 const bookShelf = document.querySelector('.book-shelf');
+const modalForm = document.querySelector('form');
+const titleInput = document.getElementById('title');
+const authorInput = document.getElementById('author');
+const pagesInput = document.getElementById('pages');
+
 
 addBookBtn.addEventListener('click', () => {
   modal.style.display = 'flex';
@@ -97,10 +102,13 @@ const renderBooksToPage = function renderBooks() {
   });
 };
 
-const modalForm = document.querySelector('form');
-const titleInput = document.getElementById('title');
-const authorInput = document.getElementById('author');
-const pagesInput = document.getElementById('pages');
+
+// removes all child elements
+const clearPage = () => {
+  while(bookShelf.firstChild){
+    bookShelf.removeChild(bookShelf.firstChild)
+  }
+}
 
 modalForm.addEventListener('submit', (e) => {
   if (
@@ -138,6 +146,7 @@ modalForm.addEventListener('submit', (e) => {
   ) {
     e.preventDefault();
     addBookToLibrary(titleInput.value, authorInput.value, pagesInput.value);
+    clearPage()
     renderBooksToPage();
     titleInput.value = '';
     authorInput.value = '';
@@ -149,15 +158,3 @@ modalForm.addEventListener('submit', (e) => {
   }
 });
 
-const removeBtn = document.querySelectorAll('.delete-btn');
-const removeBook = () => {
-  removeBtn.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      console.log(e.target.parentElement);
-      libraryArray.pop(e.target.parentElement.dataset);
-      e.target.parentElement.remove();
-    });
-  });
-};
-
-renderBooksToPage();
